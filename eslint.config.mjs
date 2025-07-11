@@ -8,18 +8,14 @@ import stylisticTs from '@stylistic/eslint-plugin-ts';
 import tsParser from '@typescript-eslint/parser';
 import absolutePlugin from 'eslint-plugin-absolute';
 import importPlugin from 'eslint-plugin-import';
-import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
 import promisePlugin from 'eslint-plugin-promise';
-import reactPlugin from 'eslint-plugin-react';
-import reactCompilerPlugin from 'eslint-plugin-react-compiler';
-import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import securityPlugin from 'eslint-plugin-security';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default [
 	{
-		ignores: ['example/build/**']
+		ignores: ['dist/**']
 	},
 	pluginJs.configs.recommended,
 
@@ -50,8 +46,7 @@ export default [
 	},
 
 	{
-		files: ['**/*.{js,mjs,cjs,ts,tsx,jsx}'],
-		ignores: ['example/build/**'],
+		files: ['**/*.{js,mjs,cjs,json,ts,tsx,jsx}'],
 		plugins: {
 			absolute: absolutePlugin,
 			import: importPlugin,
@@ -180,46 +175,24 @@ export default [
 		}
 	},
 	{
-		files: ['example/**/*.{js,jsx,ts,tsx}'],
-		plugins: {
-			'jsx-a11y': jsxA11yPlugin,
-			react: reactPlugin,
-			'react-compiler': reactCompilerPlugin,
-			'react-hooks': reactHooksPlugin
-		},
-		rules: {
-			'jsx-a11y/prefer-tag-over-role': 'error',
-			'react-compiler/react-compiler': 'error',
-			'react-hooks/exhaustive-deps': 'warn',
-			'react-hooks/rules-of-hooks': 'error',
-			'react/checked-requires-onchange-or-readonly': 'error',
-			'react/destructuring-assignment': ['error', 'always'],
-			'react/jsx-filename-extension': ['error', { extensions: ['.tsx'] }],
-			'react/jsx-no-leaked-render': 'error',
-			'react/jsx-no-target-blank': 'error',
-			'react/jsx-no-useless-fragment': 'error',
-			'react/jsx-pascal-case': ['error', { allowAllCaps: true }],
-			'react/no-multi-comp': 'error',
-			'react/no-unknown-property': 'off',
-			'react/react-in-jsx-scope': 'off',
-			'react/self-closing-comp': 'error'
-		},
-		settings: {
-			react: { version: 'detect' }
-		}
-	},
-	{
 		files: [
 			'example/server.ts',
-			'example/indexes/*.tsx',
-			'example/db/migrate.ts'
+			'tsconfig.json',
+			'package.json',
+			'.prettierrc.json'
 		],
 		rules: {
 			'import/no-unused-modules': 'off'
 		}
 	},
 	{
-		files: ['example/providers/**/*.ts', 'example/db/migrate.ts'],
+		files: ['tsconfig.json', 'package.json', '.prettierrc.json'],
+		rules: {
+			'@typescript-eslint/no-unused-expressions': 'off'
+		}
+	},
+	{
+		files: ['example/server.ts'],
 		rules: {
 			'no-console': 'off'
 		}
@@ -234,25 +207,6 @@ export default [
 		files: ['eslint.config.mjs'],
 		rules: {
 			'import/no-default-export': 'off'
-		}
-	},
-	{
-		files: ['src/providers.ts'],
-		rules: {
-			'absolute/sort-keys-fixable': [
-				'error',
-				{
-					caseSensitive: true,
-					natural: true,
-					order: 'asc'
-				}
-			]
-		}
-	},
-	{
-		files: ['example/db/schema.ts'],
-		rules: {
-			'absolute/explicit-object-types': 'off'
 		}
 	}
 ];

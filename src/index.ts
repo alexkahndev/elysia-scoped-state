@@ -1,6 +1,6 @@
 import { Elysia } from 'elysia';
-import { ScopedRecord, ScopedStateConfig, ValueOnly } from './types';
 import { Prettify } from 'elysia/types';
+import { ScopedRecord, ScopedStateConfig, ValueOnly } from './types';
 
 export const scopedState = <
 	Setup extends Record<string, ScopedStateConfig<unknown>>

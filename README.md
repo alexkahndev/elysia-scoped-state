@@ -40,8 +40,8 @@ yarn add elysia-scoped-state
 ## Example
 
 ```ts
-import { Elysia } from "elysia";
-import { scopedState } from 'elysia-scoped-state'
+import { Elysia } from 'elysia';
+import { scopedState } from 'elysia-scoped-state';
 
 export const server = new Elysia()
 	.use(
@@ -51,10 +51,16 @@ export const server = new Elysia()
 		})
 	)
 	.get('/', () => Bun.file('./build/pages/example.html'))
-	.post('/api/reset', ({ resetScopedStore }) => resetScopedStore())
+	.post('/api/reset?force', ({ resetScopedStore, query: { force } }) =>
+		resetScopedStore(
+			force !== undefined && force !== 'false' && force !== '0'
+		)
+	)
 	.get('/api/count', ({ scopedStore }) => scopedStore.count)
 	.post('/api/increment', ({ scopedStore }) => ++scopedStore.count)
-	.listen(3000);
+	.listen({ port: 3000 }, () => {
+		console.log('Server is running on http://localhost:3000');
+	});
 ```
 
 ---

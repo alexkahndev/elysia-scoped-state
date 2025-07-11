@@ -1,5 +1,3 @@
-type Prettify<T> = { [K in keyof T]: T[K] } & {};
-
 export type ScopedStateConfig<T> = { value: T; preserve?: boolean };
 
 export type ValueOnly<
