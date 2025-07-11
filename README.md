@@ -40,6 +40,7 @@ yarn add elysia-scoped-state
 ## Example
 
 ```ts
+import { Elysia } from "elysia";
 import { scopedState } from 'elysia-scoped-state'
 
 export const server = new Elysia()
