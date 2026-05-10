@@ -21,17 +21,24 @@ export const scopedState = <
 					return status('Bad Request', 'Cookies not set properly');
 				}
 
-				// The user session doesnt exist yet, so we create it
+				// The user session doesnt exist yet, so we create it.
+				// Clone `initialState` per session — without this, every
+				// new session is assigned the SAME `initialState`
+				// reference, so one user's mutations to `scopedStore.x`
+				// are visible to every other session that hasn't
+				// already created its own object yet. Reads from a
+				// freshly-cookied user return whatever the previous
+				// active session last wrote.
 				if (user_session_id.value === undefined) {
 					user_session_id.value = crypto.randomUUID();
 					// @ts-expect-error - Object.entries loses type inference because of the `unknown` type
-					scoped[user_session_id.value] = initialState;
+					scoped[user_session_id.value] = structuredClone(initialState);
 				}
 
 				// The server got reset but the user session cookie still exists, so we reset the scoped state
 				if (scoped[user_session_id.value] === undefined) {
 					// @ts-expect-error - Object.entries loses type inference because of the `unknown` type
-					scoped[user_session_id.value] = initialState;
+					scoped[user_session_id.value] = structuredClone(initialState);
 				}
 
 				const scopedStore = scoped[user_session_id.value];
